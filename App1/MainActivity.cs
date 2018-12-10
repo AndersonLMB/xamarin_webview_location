@@ -8,6 +8,7 @@ using Android;
 using Android.Webkit;
 using Java.Interop;
 using Android.Locations;
+using Android.Content;
 
 namespace App1
 {
@@ -22,14 +23,17 @@ namespace App1
             {
                 SupportActionBar.Hide();
             }
-            if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) == Android.Content.PM.Permission.Denied &&
-                ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) == Android.Content.PM.Permission.Denied)
-            {
-                ActivityCompat.RequestPermissions(this, new string[] {
-                    Manifest.Permission.AccessCoarseLocation,
-                    Manifest.Permission.AccessFineLocation
-                }, 2);
-            }
+            LocationUtils.EnsureLocationPermissionEnabled(this);
+
+            //if (ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessFineLocation) == Android.Content.PM.Permission.Denied
+            //    &&
+            //    ActivityCompat.CheckSelfPermission(this, Manifest.Permission.AccessCoarseLocation) == Android.Content.PM.Permission.Denied)
+            //{
+            //    ActivityCompat.RequestPermissions(this, new string[] {
+            //        Manifest.Permission.AccessCoarseLocation,
+            //        Manifest.Permission.AccessFineLocation
+            //    }, 2);
+            //}
 
             LaunchWeb("http://192.168.0.149/MZ.GisClient/default.aspx?f=m");
         }
@@ -86,12 +90,6 @@ namespace App1
         {
             Toast.MakeText(Activity.ApplicationContext, "Invoke FunTryLocation", ToastLength.Short).Show();
 
-
-            
-
-
-            //this.WebView.SetNetworkLocation( );
-
         }
 
 
@@ -107,6 +105,25 @@ namespace App1
 
 
         }
+
+    }
+
+    public static class LocationUtils
+    {
+        public static void EnsureLocationPermissionEnabled(Activity activity)
+        {
+
+            if (ActivityCompat.CheckSelfPermission(activity, Manifest.Permission.AccessFineLocation) == Android.Content.PM.Permission.Denied
+                &&
+                ActivityCompat.CheckSelfPermission(activity, Manifest.Permission.AccessCoarseLocation) == Android.Content.PM.Permission.Denied)
+            {
+                ActivityCompat.RequestPermissions(activity, new string[] {
+                    Manifest.Permission.AccessCoarseLocation,
+                    Manifest.Permission.AccessFineLocation
+                }, 2);
+            }
+        }
+
 
     }
 
