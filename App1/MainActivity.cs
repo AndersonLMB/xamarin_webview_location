@@ -30,6 +30,7 @@ namespace App1
                     Manifest.Permission.AccessFineLocation
                 }, 2);
             }
+
             LaunchWeb("http://192.168.0.149/MZ.GisClient/default.aspx?f=m");
         }
 
